@@ -17,6 +17,8 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
+  // GitHub Pages serves the static demo from /<repo>/ (set by the Pages workflow)
+  base: process.env.VITE_BASE || '/',
   plugins: [
     figmaAssetResolver(),
     react(),

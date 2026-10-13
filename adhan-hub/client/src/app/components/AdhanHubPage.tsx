@@ -1,3 +1,4 @@
+import { STATIC_DEMO } from "../../staticDemo";
 import { adminHeaders } from "../../lib-admin";
 import { useState, useEffect, useRef } from "react";
 import { Play, Square, Clock, Volume2, ChevronDown } from "lucide-react";
@@ -110,6 +111,11 @@ export function AdhanHubPage({ profileId, profileName }: Props) {
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Playing automatically via Raspberry Pi → Echo Dot
         </p>
+        {STATIC_DEMO && (
+          <p className="text-xs text-amber-700 dark:text-amber-400">
+            Public demo: the adhan recordings aren't included, so Play is silent here. At home they play from local MP3s on the Pi.
+          </p>
+        )}
       </div>
 
       {/* Reciter selector + Play/Stop */}

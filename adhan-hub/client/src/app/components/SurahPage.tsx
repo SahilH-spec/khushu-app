@@ -1,3 +1,4 @@
+import { STATIC_DEMO, everyAyahDirect } from "../../staticDemo";
 import { useState, useEffect, useRef } from "react";
 import { Bookmark, Play, Pause, ChevronDown, Loader, Music } from "lucide-react";
 import type { QuranSettings, BookmarkState } from "../App";
@@ -55,6 +56,7 @@ const EVERYAYAH_PATHS: Record<ReciterId, string> = {
 
 function everyayahUrl(reciterId: ReciterId, surahNum: number, verseNum: number) {
   const path = EVERYAYAH_PATHS[reciterId];
+  if (STATIC_DEMO) return everyAyahDirect(path, surahNum, verseNum);
   return `/api/quran-audio?reciter=${encodeURIComponent(path)}&surah=${surahNum}&verse=${verseNum}`;
 }
 

@@ -6,6 +6,8 @@ An all-in-one Islamic companion app: prayer times, a Quran reader with translati
 
 Built by Sahil Khan as a personal project. I run it for my own household.
 
+**Live demo: https://sahilh-spec.github.io/khushu-app/** (static build: no server, no API keys)
+
 <p>
   <img src="docs/screenshots/home.png" width="23%" alt="Home: prayer times and countdown">
   <img src="docs/screenshots/dhikr.png" width="23%" alt="Dhikr counter">
@@ -54,6 +56,14 @@ The adhan and dua recordings are **not** in this repository. Put your own MP3s i
 Deploy: `railway.toml` is included. Set the variables from `.env.example` in your host, and mount a volume at `/app/data` so profiles survive redeploys.
 
 Pi setup (hardware list, Bluetooth pairing, systemd service, troubleshooting): [`adhan-hub/pi/README.md`](adhan-hub/pi/README.md).
+
+## Static demo (GitHub Pages)
+
+The live demo is the same React app built with `VITE_STATIC_DEMO=true`, so it needs no server or keys. `src/staticDemo.ts`
+answers the app's `/api/*` calls in the browser instead: prayer times from Aladhan for your location (Makkah if you don't
+share it), the Quran from Quran.com with AlQuran.cloud as a fallback, and profiles saved in your browser. Duas are off
+(their API key belongs on a server) and the adhan recordings aren't included. `.github/workflows/pages.yml` publishes it
+on every push to `main`.
 
 ## Security notes
 

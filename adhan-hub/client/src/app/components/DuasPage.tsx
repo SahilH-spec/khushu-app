@@ -1,3 +1,4 @@
+import { STATIC_DEMO } from "../../staticDemo";
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight, Heart, Loader } from "lucide-react";
 
@@ -142,7 +143,7 @@ export function DuasPage() {
       {/* Error */}
       {error && !loading && (
         <div className="mx-4 rounded-xl p-4 text-center" style={{ background: "var(--k-surface)", border: "1px solid var(--k-border)" }}>
-          <p style={{ fontFamily: "Nunito, sans-serif", color: "var(--k-text-muted)", fontSize: "13px" }}>Could not load duas. Check your internet connection.</p>
+          <p style={{ fontFamily: "Nunito, sans-serif", color: "var(--k-text-muted)", fontSize: "13px" }}>{STATIC_DEMO ? "Duas come from the Ummah API, which needs a private key kept on the server, so they are turned off in this public demo." : "Could not load duas. Check your internet connection."}</p>
         </div>
       )}
 
