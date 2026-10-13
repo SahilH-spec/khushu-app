@@ -1,0 +1,27 @@
+[Unit]
+Description=Siraj Adhan Player
+After=network-online.target bluetooth.target sound.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__APP_DIR__
+Environment=NODE_ENV=production
+EnvironmentFile=-__APP_DIR__/.env
+
+ExecStart=/usr/local/bin/node __APP_DIR__/local-player.js
+
+# Restart on crash, but not on clean exit (Ctrl+C)
+Restart=on-failure
+RestartSec=15
+
+# Give PulseAudio time to be ready
+TimeoutStartSec=30
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=siraj-adhan
+
+[Install]
+WantedBy=multi-user.target

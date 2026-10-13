@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Scheherazade+New:wght@400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'IndoPak Nastaleeq';
+  src: url('https://verses.quran.foundation/fonts/quran/hafs/nastaleeq/indopak/indopak-nastaleeq-waqf-lazim-v4.2.1.woff2') format('woff2');
+  font-display: swap;
+}

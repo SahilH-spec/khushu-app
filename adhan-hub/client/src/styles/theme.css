@@ -1,0 +1,169 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  --background: #ffffff;
+  --foreground: #1c2b1c;
+  --card: #f7f4ef;
+  --card-foreground: #1c2b1c;
+  --popover: #ffffff;
+  --popover-foreground: #1c2b1c;
+  --primary: #1e6b5e;
+  --primary-foreground: #ffffff;
+  --secondary: #f0ede6;
+  --secondary-foreground: #1c2b1c;
+  --muted: #ede9e0;
+  --muted-foreground: #6b7a69;
+  --accent: #b89230;
+  --accent-foreground: #ffffff;
+  --destructive: #c0392b;
+  --destructive-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.08);
+  --input: transparent;
+  --input-background: #f0ede6;
+  --switch-background: #1e6b5e;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: #b89230;
+  --chart-1: #b89230;
+  --chart-2: #1e6b5e;
+  --chart-3: #2e86ab;
+  --chart-4: #6b7a69;
+  --chart-5: #4ecdc4;
+  --radius: 0.75rem;
+  --sidebar: #f7f4ef;
+  --sidebar-foreground: #1c2b1c;
+  --sidebar-primary: #1e6b5e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f0ede6;
+  --sidebar-accent-foreground: #1c2b1c;
+  --sidebar-border: rgba(0, 0, 0, 0.08);
+  --sidebar-ring: #b89230;
+  /* Khushu tokens — light */
+  --k-bg: #ffffff;
+  --k-surface: #f7f4ef;
+  --k-surface-2: #ede9e0;
+  --k-text: #1c2b1c;
+  --k-text-muted: #6b7a69;
+  --k-text-disabled: #b8c0b8;
+  --k-gold: #b89230;
+  --k-gold-sub: rgba(184,146,48,0.1);
+  --k-gold-border: rgba(184,146,48,0.25);
+  --k-green: #1e6b5e;
+  --k-green-sub: rgba(30,107,94,0.08);
+  --k-teal: #1aa399;
+  --k-border: rgba(0,0,0,0.07);
+  --k-border-strong: rgba(0,0,0,0.13);
+  --k-nav-bg: #ffffff;
+  --k-shadow: rgba(0,0,0,0.06);
+  --k-hero-end: #0a2a23;
+}
+
+.dark {
+  --background: #0a1628;
+  --foreground: #f0ede6;
+  --card: #0f1f38;
+  --card-foreground: #f0ede6;
+  --popover: #0f1f38;
+  --popover-foreground: #f0ede6;
+  --primary: #c8a84b;
+  --primary-foreground: #0a1628;
+  --secondary: #1a2e4a;
+  --secondary-foreground: #f0ede6;
+  --muted: #1a2e4a;
+  --muted-foreground: #8fa3be;
+  --accent: #1e6b5e;
+  --accent-foreground: #f0ede6;
+  --destructive: #c0392b;
+  --destructive-foreground: #ffffff;
+  --border: rgba(200,168,75,0.12);
+  --input: #1a2e4a;
+  --ring: #c8a84b;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: #c8a84b;
+  --chart-2: #1e6b5e;
+  --chart-3: #2e86ab;
+  --chart-4: #8fa3be;
+  --chart-5: #4ecdc4;
+  --sidebar: #0f1f38;
+  --sidebar-foreground: #f0ede6;
+  --sidebar-primary: #c8a84b;
+  --sidebar-primary-foreground: #0a1628;
+  --sidebar-accent: #1a2e4a;
+  --sidebar-accent-foreground: #f0ede6;
+  --sidebar-border: rgba(200,168,75,0.12);
+  --sidebar-ring: #c8a84b;
+  /* Khushu tokens — dark */
+  --k-bg: #0a1628;
+  --k-surface: #0f1f38;
+  --k-surface-2: #1a2e4a;
+  --k-text: #f0ede6;
+  --k-text-muted: #8fa3be;
+  --k-text-disabled: #4a5d72;
+  --k-gold: #c8a84b;
+  --k-gold-sub: rgba(200,168,75,0.12);
+  --k-gold-border: rgba(200,168,75,0.28);
+  --k-green: #1e6b5e;
+  --k-green-sub: rgba(30,107,94,0.15);
+  --k-teal: #4ecdc4;
+  --k-border: rgba(200,168,75,0.1);
+  --k-border-strong: rgba(200,168,75,0.2);
+  --k-nav-bg: #0c1a2e;
+  --k-shadow: rgba(0,0,0,0.3);
+  --k-hero-end: #0a2a23;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
+  html { font-size: var(--font-size); }
+  h1 { font-size: var(--text-2xl); font-weight: var(--font-weight-medium); line-height: 1.5; }
+  h2 { font-size: var(--text-xl); font-weight: var(--font-weight-medium); line-height: 1.5; }
+  h3 { font-size: var(--text-lg); font-weight: var(--font-weight-medium); line-height: 1.5; }
+  h4 { font-size: var(--text-base); font-weight: var(--font-weight-medium); line-height: 1.5; }
+  label { font-size: var(--text-base); font-weight: var(--font-weight-medium); line-height: 1.5; }
+  button { font-size: var(--text-base); font-weight: var(--font-weight-medium); line-height: 1.5; }
+  input { font-size: var(--text-base); font-weight: var(--font-weight-normal); line-height: 1.5; }
+}

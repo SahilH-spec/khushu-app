@@ -1,0 +1,28 @@
+{
+  "name": "khushu",
+  "version": "1.0.0",
+  "description": "Khushu — Islamic family app: prayer times, Quran, Dhikr, and Raspberry Pi adhan player",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build:client": "cd client && pnpm install && pnpm build",
+    "build": "npm run build:client",
+    "test:security": "bash scripts/security-test.sh"
+  },
+  "dependencies": {
+    "@quranjs/api": "^3.4.0",
+    "axios": "^1.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.5.1",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
