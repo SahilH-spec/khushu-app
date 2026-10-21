@@ -2,80 +2,85 @@
 
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 
-An all-in-one Islamic companion app: prayer times, a Quran reader with translation and audio, duas, dhikr counter, the 99 Names, Qibla direction, and a **Raspberry Pi that plays the adhan automatically at home** through a Bluetooth speaker.
+**An Islamic companion app with prayer times, a Quran reader, duas, and a dhikr counter, plus a small Raspberry Pi that plays the adhan at home automatically.**
 
-Built by Sahil Khan as a personal project. I run it for my own household.
-
-**Live demo: https://sahilh-spec.github.io/khushu-app/** (static build: no server, no API keys)
+**[Live demo](https://sahilh-spec.github.io/khushu-app/)** (static version: no server, no API keys)
 
 <p>
-  <img src="docs/screenshots/home.png" width="23%" alt="Home: prayer times and countdown">
-  <img src="docs/screenshots/dhikr.png" width="23%" alt="Dhikr counter">
-  <img src="docs/screenshots/names.png" width="23%" alt="99 Names of Allah">
-  <img src="docs/screenshots/adhan.png" width="23%" alt="Adhan hub">
+<img src="docs/screenshots/home.png" width="23%" alt="Home: prayer times and countdown">
+<img src="docs/screenshots/dhikr.png" width="23%" alt="Dhikr counter">
+<img src="docs/screenshots/names.png" width="23%" alt="99 Names of Allah">
+<img src="docs/screenshots/adhan.png" width="23%" alt="Adhan hub">
 </p>
 
 _Screenshots use sample prayer times so the layout is visible without network access._
 
-## What it does
+## What it is
 
-| Area | How it works |
+Khushu is a web app that puts the everyday tools of a Muslim's day in one place:
+
+- **Prayer times** for your location, with a live countdown to the next prayer
+- **Quran reader** with Arabic, translation, transliteration, and audio
+- **Duas, dhikr counter, the 99 Names, and a Qibla compass**
+- **Adhan at home:** a Raspberry Pi plays the adhan through a Bluetooth speaker at every prayer time, with no phone needed
+
+## Purpose
+
+Khushu is a personal project that runs in a real household. Each family member gets their own profile with their own reciter and volume, so everyone hears the adhan the way they prefer.
+
+## How it works
+
+```mermaid
+flowchart LR
+    A["Phone or browser<br/>React app"] --> B["Express server"]
+    B --> C["Aladhan<br/>prayer times"]
+    B --> D["Quran.com + EveryAyah<br/>Quran text and audio"]
+    B --> E["Ummah API<br/>duas"]
+    B -. "profiles and settings" .-> F["Raspberry Pi Zero W"]
+    F --> G["Bluetooth speaker<br/>plays the adhan"]
+```
+
+1. **Prayer times:** the server asks the Aladhan API for your location, saves the result for the day, and works out the next prayer and the countdown.
+2. **Quran and duas:** the server fetches these from third-party APIs and passes them to the app, so API keys never reach the browser.
+3. **Adhan at home:** a small program on the Raspberry Pi checks prayer times every minute, plays the adhan, then a dua, and reconnects the Bluetooth speaker after a reboot.
+
+## Key decisions
+
+- **Keys stay on the server.** The Duas API key is never sent to the browser.
+- **One demo, no backend.** The live demo is the same React app built in a static mode that answers its own requests in the browser, so anyone can try it safely.
+- **Per-person profiles.** Each household member keeps their own preferences. An owner-only admin profile is protected by a server-side token.
+- **Plain Bluetooth speaker.** An Echo Dot works as a regular Bluetooth speaker, with no Alexa account involved.
+
+## Tech at a glance
+
+| Area | Tools |
 |---|---|
-| **Prayer times** | Express server calls the [Aladhan API](https://aladhan.com/prayer-times-api) for your coordinates and timezone, caches per day, and computes the next prayer and a live countdown. |
-| **Quran** | Surah reader with Arabic (Uthmani / IndoPak), translation, transliteration, per-verse and full-surah audio. Text and audio come from the [Quran.com API](https://api.quran.com) and [EveryAyah](https://everyayah.com), proxied through the server. |
-| **Duas** | Fetched from the [Ummah API](https://ummahapi.com) through a server-side proxy so the API key never reaches the browser. |
-| **Dhikr, 99 Names, Qibla, reminders** | Client-side: dhikr counter, Names with meanings, compass using the device's location and orientation, browser prayer notifications. |
-| **Profiles** | Each household member keeps their own adhan preferences (reciter, volume). An owner-only admin profile is protected by a server-side token. |
-| **Pi adhan player** | A Raspberry Pi Zero W runs `local-player.js`, which checks prayer times every minute, plays the adhan MP3 through `mpg123`, then a rotating dua, over Bluetooth A2DP to a speaker (I use an Echo Dot as a plain Bluetooth speaker, no Alexa account involved). It runs as a systemd service and reconnects the speaker on boot. |
-
-## Architecture
-
-```
-React + Vite + Tailwind (client/)  ──►  Express API (server.js, routes/, services/)
-   UI started as a Figma Make          ├─ Aladhan (prayer times)
-   export, then wired to the API       ├─ Quran.com + EveryAyah (Quran text and audio)
-                                       ├─ Ummah API proxy (duas, key stays on server)
-                                       └─ JSON profile store (data/config.json)
-
-Raspberry Pi Zero W: local-player.js ─► mpg123 ─► PulseAudio ─► Bluetooth speaker
-```
+| Frontend | React, Vite, Tailwind (UI started as a Figma Make export, then wired to the API) |
+| Backend | Node.js, Express, JSON profile store |
+| Data sources | Aladhan, Quran.com, EveryAyah, Ummah API |
+| Adhan player | Raspberry Pi Zero W, `mpg123`, PulseAudio, Bluetooth, systemd |
+| Hosting | Railway (app), GitHub Pages (demo), GitHub Actions (CI) |
 
 ## Run it locally
 
 ```bash
 cd adhan-hub
-cp .env.example .env          # set LATITUDE, LONGITUDE, TIMEZONE; optionally ADMIN_TOKEN, UMMAH_API_KEY
+cp .env.example .env     # set LATITUDE, LONGITUDE, TIMEZONE
 npm install
-npm run build:client          # builds the React app into adhan-hub/public (needs pnpm: npm i -g pnpm)
-npm start                     # http://localhost:3000
+npm run build:client     # needs pnpm: npm i -g pnpm
+npm start                # http://localhost:3000
 ```
 
-The adhan and dua recordings are **not** in this repository. Put your own MP3s in `adhan-hub/public/audio/` (and `adhan-hub/client/public/audio/`):
-`adhan-omar-hisham.mp3`, `adhan-ahmed-el-kourdi.mp3`, `adhan-fajr.mp3`, `dua-1.mp3` … `dua-4.mp3`. Make sure you have the right to use whatever recordings you choose.
+The adhan and dua recordings are **not** in this repository. Add your own MP3s to `adhan-hub/public/audio/` and `adhan-hub/client/public/audio/` (file names are listed in [docs/TECHNICAL.md](docs/TECHNICAL.md)), and make sure you have the right to use them.
 
-Deploy: `railway.toml` is included. Set the variables from `.env.example` in your host, and mount a volume at `/app/data` so profiles survive redeploys.
+## More detail
 
-Pi setup (hardware list, Bluetooth pairing, systemd service, troubleshooting): [`adhan-hub/pi/README.md`](adhan-hub/pi/README.md).
-
-## Static demo (GitHub Pages)
-
-The live demo is the same React app built with `VITE_STATIC_DEMO=true`, so it needs no server or keys. `src/staticDemo.ts`
-answers the app's `/api/*` calls in the browser instead: prayer times from Aladhan for your location (Makkah if you don't
-share it), the Quran from Quran.com with AlQuran.cloud as a fallback, and profiles saved in your browser. Duas are off
-(their API key belongs on a server) and the adhan recordings aren't included. `.github/workflows/pages.yml` publishes it
-on every push to `main`.
-
-## Security notes
-
-- Admin routes and the admin profile (which the Pi reads its settings from) require `ADMIN_TOKEN` (16+ characters), compared in constant time. Without it, admin features are disabled.
-- Third-party API keys live only in environment variables. The Duas proxy only forwards `/duas` paths.
-- No open CORS (the UI is served by the same server), API rate limiting, request body size limit, validated settings input.
-- Profiles are a convenience for preferences, not an identity system: anyone who can reach the site can create a non-admin profile.
-- `npm run test:security` starts the server and checks these behaviors (runs in CI).
+- Technical breakdown (deployment, security notes, static demo build): [docs/TECHNICAL.md](docs/TECHNICAL.md)
+- Raspberry Pi setup (hardware, Bluetooth pairing, systemd, troubleshooting): [adhan-hub/pi/README.md](adhan-hub/pi/README.md)
 
 ## Status and limits
 
-Beta, one developer. Prayer times depend on the calculation method you choose; always confirm with your local masjid. The Quran text and audio are served by the third-party APIs above. There is no AI/LLM feature in the current code.
+Beta, one developer. Prayer times depend on the calculation method you choose, so always confirm with your local masjid. Quran text and audio come from the third-party APIs above. There is no AI feature in the current code.
 
 ## License
 
